@@ -5,6 +5,7 @@ import { Alert } from "react-native"
 import { View } from "react-native"
 import { StyleSheet } from "react-native"
 import { Button, Input } from "react-native-elements"
+import Avatar from "./avatar"
 
 export default function Account({ session }: { session: Session }) {
     const [loading, setLoading] = useState(true)
@@ -51,8 +52,8 @@ export default function Account({ session }: { session: Session }) {
                 avatar_url,
                 updated_at: new Date()
             }
-            const { error} = await supabase.from('profiles').upsert(updateData);
-            
+            const { error } = await supabase.from('profiles').upsert(updateData);
+
             if (error) throw error;
         } catch (error) {
             if (error instanceof Error) {
@@ -65,6 +66,16 @@ export default function Account({ session }: { session: Session }) {
 
     return (
         <View style={styles.container}>
+            <View>
+                <Avatar
+                    size={200}
+                    url={avatarUrl}
+                    onUpload={(url: string) => {
+                        setAvatarUrl(url)
+                        updateProfile({ username, website, avatar_url: url })
+                    }}
+                />
+            </View>
             <View style={[styles.verticallySpaced, styles.mt20]}>
                 <Input label="Email" value={session?.user?.email} disabled />
             </View>
