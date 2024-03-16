@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { supabase } from './lib/supabase';
 import Account from './components/compte';
 import Auth from './components/auth';
+import Sound from './components/sound';
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null);
@@ -18,9 +19,15 @@ export default function App() {
     })
   }, [])
   return (
-    <View>
-      {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
+    <View style={{flex:1,marginTop: 40,}}>
+      <Sound />
     </View>
   );
 }
+
+/**
+ * <View>
+      {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
+    </View>
+ */
 
